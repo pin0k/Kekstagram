@@ -45,15 +45,34 @@ const TEXT_MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+const DESCRIPTION_PHOTO_COUNT = 25;
+
+const SIMILAR_COMMENT_COUNT = 6;
+
+const Likes = {
+  MIN: 15,
+  MAX: 200
+};
+
+const RandomId = {
+  MIN: 1,
+  MAX: 1000
+};
+
+const RandomAvatar = {
+  MIN: 1,
+  MAX: 6
+};
+
 const createDescriptionPhoto = () => {
   const descriptionPhoto = [];
 
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < DESCRIPTION_PHOTO_COUNT; i++) {
     descriptionPhoto.push({
       id: i,
       url: 'photos/' + (i + 1) + '.jpg',
       description: TEXT_DESCRIPTION[getRandomInt(0, TEXT_DESCRIPTION.length-1)],
-      likes: getRandomInt(15, 200),
+      likes: getRandomInt(Likes.MIN, Likes.MAX),
       comments: createComments()
     });
   }
@@ -63,10 +82,10 @@ const createDescriptionPhoto = () => {
 
 const createComments = () => {
   const comments = [];
-  for (let j = 0; j < 5; j++) {
+  for (let j = 0; j < SIMILAR_COMMENT_COUNT; j++) {
     comments.push({
-      id: getRandomInt(1, 1000),
-      avatar: 'img/avatar-' + getRandomInt(1, 6) + '.svg',
+      id: getRandomInt(RandomId.MIN, RandomId.MAX),
+      avatar: 'img/avatar-' + getRandomInt(RandomAvatar.MIN, RandomAvatar.MAX) + '.svg',
       message: TEXT_MESSAGE[getRandomInt(0, TEXT_MESSAGE.length-1)],
       name: NAMES[getRandomInt(0, NAMES.length-1)]
     });
