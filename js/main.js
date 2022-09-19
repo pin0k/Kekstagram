@@ -14,9 +14,8 @@ const getStringCount = (text, maxLength) => {
   return (text.trim().length <= maxLength);
 };
 
-alert(getStringCount('проверочное сообщение', 5));
+console.log(getStringCount('проверочное сообщение', 5));
 
-// Начало третьей домашки
 const NAMES = [
   'Иван',
   'Хуан Себастьян',
@@ -28,15 +27,13 @@ const NAMES = [
   'Вашингтон',
 ];
 
-const SURNAMES = [
-  'да Марья',
-  'Верон',
-  'Мирабелла',
-  'Вальц',
-  'Онопко',
-  'Топольницкая',
-  'Нионго',
-  'Ирвинг',
+const TEXT_DESCRIPTION = [
+  'Повседневная практика показывает, что реализация намеченных плановых заданий играет важную роль в формировании систем массового участия',
+  'Товарищи! сложившаяся структура организации в значительной степени обуславливает создание новых предложений',
+  'Идейные соображения высшего порядка, а также реализация намеченных плановых заданий играет важную роль в формировании существенных финансовых и административных условий',
+  'Начало повседневной работы по формированию позиции играет важную роль в формировании направлений прогрессивного развития',
+  'Идейные соображения высшего порядка, а также укрепление и развитие структуры представляет собой интересный эксперимент проверки системы обучения кадров, соответствует насущным потребностям',
+  'Не следует, однако забывать, что сложившаяся структура организации представляет собой интересный эксперимент проверки дальнейших направлений развития'
 ];
 
 const TEXT_MESSAGE = [
@@ -48,17 +45,34 @@ const TEXT_MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-// Функция для создания массива случайных чисел
+const createDescriptionPhoto = () => {
+  const descriptionPhoto = [];
 
-const SIMILAR_OBJECT_COUNT = 25;
+  for (let i = 0; i < 25; i++) {
+    descriptionPhoto.push({
+      id: i,
+      url: 'photos/' + (i + 1) + '.jpg',
+      description: TEXT_DESCRIPTION[getRandomInt(0, TEXT_DESCRIPTION.length-1)],
+      likes: getRandomInt(15, 200),
+      comments: createComments()
+    });
+  }
 
-const UNIQUE_INTEGER = [];
+  return descriptionPhoto;
+};
 
-const getRandomUniqueInteger = (count) => {
-  for (let i = 0; i < count; i++) {
-    UNIQUE_INTEGER.push(getRandomInt(1, 1000));
+const createComments = () => {
+  const comments = [];
+  for (let j = 0; j < 5; j++) {
+    comments.push({
+      id: getRandomInt(1, 1000),
+      avatar: 'img/avatar-' + getRandomInt(1, 6) + '.svg',
+      message: TEXT_MESSAGE[getRandomInt(0, TEXT_MESSAGE.length-1)],
+      name: NAMES[getRandomInt(0, NAMES.length-1)]
+    });
   };
+
+  return comments;
 }
 
-getRandomUniqueInteger(SIMILAR_OBJECT_COUNT);
-console.log(UNIQUE_INTEGER);
+console.log(createDescriptionPhoto());
