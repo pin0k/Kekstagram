@@ -1,5 +1,6 @@
+import {scrollOff} from './util.js';
+
 const bigPicture = document.querySelector('.big-picture');
-const scrollOff = document.querySelector('body');
 const bigPictureClose = document.querySelector('.big-picture__cancel');
 
 // пока скрываем лишнее

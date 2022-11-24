@@ -16,4 +16,10 @@ const getRandomElementArray = (array) => {
   return array[getRandomInt(0, array.length - 1)];
 }
 
-export {getRandomInt, getStringCount, getRandomElementArray};
+const scrollOff = document.querySelector('body');
+
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+export {getRandomInt, getStringCount, getRandomElementArray, scrollOff, isEscEvent};

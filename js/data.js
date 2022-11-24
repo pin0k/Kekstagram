@@ -22,10 +22,12 @@ const TEXT_DESCRIPTION = [
 const TEXT_MESSAGE = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра.',
+  'В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
+  'Лица у людей на фотке перекошены, как будто их избивают.',
+  'Как можно было поймать такой неудачный момент?!'];
 
 const DESCRIPTION_PHOTO_COUNT = 25;
 
@@ -37,7 +39,7 @@ const Likes = {
 
 const RandomInteger = {
   MIN: 1,
-  MAX: 1000};
+  MAX: 10};
 
 const RandomAvatar = {
   MIN: 1,
@@ -47,12 +49,12 @@ const photos = [];
 
 const createComments = (countComments) => {
 
-const comments = [];
+  const comments = [];
   for (let j = 0; j < countComments; j++) {
     comments.push({
       id: getRandomInt(RandomInteger.MIN, RandomInteger.MAX),
       avatar: 'img/avatar-' + getRandomInt(RandomAvatar.MIN, RandomAvatar.MAX) + '.svg',
-      message: TEXT_MESSAGE[getRandomElementArray(TEXT_MESSAGE)],
+      message: getRandomElementArray(TEXT_MESSAGE),
       name: NAMES[getRandomElementArray(NAMES)]});
   }
 
@@ -64,7 +66,7 @@ const createDescriptionPhoto = () => {
     photos.push({
       id: i,
       url: 'photos/' + (i + 1) + '.jpg',
-      description: TEXT_DESCRIPTION[getRandomElementArray(TEXT_DESCRIPTION)],
+      description: getRandomElementArray(TEXT_DESCRIPTION),
       likes: getRandomInt(Likes.MIN, Likes.MAX),
       comments: createComments(getRandomInt(RandomInteger.MIN, RandomInteger.MAX))});
   }
