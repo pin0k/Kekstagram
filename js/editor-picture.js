@@ -24,9 +24,7 @@ const effectLevel = editForm.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 const effectsItems = editForm.querySelectorAll('.effects__radio');
-const hashtags = document.querySelector('.text__hashtags');
 
-// Закрытие окна редактирования
 const closeModal = () => {
   editForm.classList.add('hidden');
   scrollOff.classList.remove('modal-open');
@@ -34,7 +32,27 @@ const closeModal = () => {
   uploadFileInput.innerHTML = '';
 };
 
-// Добавление слайдера
+uploadFileInput.addEventListener('change', () => {
+  resetSettings();
+  editForm.classList.remove('hidden');
+  scrollOff.classList.add('modal-open');
+})
+
+
+document.addEventListener('keydown', (evt) => {
+  if (isEscEvent) {
+    closeModal();
+  }
+});
+
+const resetSettings = () => {
+  uploadImage.style = 'transform: scale(1.00)';
+  uploadImage.style.filter = '';
+  uploadImage.removeAttribute('class');
+
+  scaleControlValue.value = '100%';
+};
+
 valueElement.value = 100;
 noUiSlider.create(sliderElement, {
   range: {
@@ -46,67 +64,46 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
+const getScaleValue = () => {
+  let scaleValue = Scale.MAX;
+  scaleControlValue.value = scaleValue + '%';
 
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
-    closeModal();
-  }
-});
-
-hashtags.addEventListener('focusin', (evt) => {
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      console.log('Keydown ESC');
-      return false;
+  scaleControlBigger.addEventListener('click', () => {
+    if (scaleValue >= Scale.MAX) {
+      scaleValue = Scale.MAX;
+      scaleControlValue.value = scaleValue + '%';
+      uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
+      hiddenScaleValue.value = scaleValue + '%';
+    } else if ( scaleValue >= Scale.MIN) {
+      scaleValue += Scale.STEP;
+      scaleControlValue.value = scaleValue + '%';
+      uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
+      hiddenScaleValue.value = scaleValue + '%';
     }
   });
-});
 
-// функция вывода окна редактирования
+  scaleControlSmaller.addEventListener('click', () => {
+    if (scaleValue <= Scale.MIN) {
+      scaleValue = Scale.MIN;
+      scaleControlValue.value = scaleValue + '%';
+      uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
+      hiddenScaleValue.value = scaleValue + '%';
+    } else if ( scaleValue > Scale.MIN) {
+      scaleValue -= Scale.STEP;
+      scaleControlValue.value = scaleValue + '%';
+      uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
+      hiddenScaleValue.value = scaleValue + '%';
+    }
+  });
+};
+
 const uploadPictureForm = uploadFileInput.addEventListener('change', () => {
   scrollOff.classList.add('modal-open');
   editFormClose.addEventListener('click', closeModal);
-
-  // Масштаб нового изображения
-  const getScaleValue = () => {
-    let scaleValue = Scale.MAX;
-    scaleControlValue.value = scaleValue + '%';
-
-    scaleControlBigger.addEventListener('click', () => {
-      if (scaleValue >= Scale.MAX) {
-        scaleValue = Scale.MAX;
-        scaleControlValue.value = scaleValue + '%';
-        uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
-        hiddenScaleValue.value = scaleValue + '%';
-      } else if ( scaleValue >= Scale.MIN) {
-        scaleValue += Scale.STEP;
-        scaleControlValue.value = scaleValue + '%';
-        uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
-        hiddenScaleValue.value = scaleValue + '%';
-      }
-    });
-
-    scaleControlSmaller.addEventListener('click', () => {
-      if (scaleValue <= Scale.MIN) {
-        scaleValue = Scale.MIN;
-        scaleControlValue.value = scaleValue + '%';
-        uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
-        hiddenScaleValue.value = scaleValue + '%';
-      } else if ( scaleValue > Scale.MIN) {
-        scaleValue -= Scale.STEP;
-        scaleControlValue.value = scaleValue + '%';
-        uploadImage.style.transform = 'scale(' + (scaleValue * 0.01) + ')';
-        hiddenScaleValue.value = scaleValue + '%';
-      }
-    });
-  };
+  let selectEffect = editForm.querySelector('#effect-none');
+  effectLevel.classList.add('hidden');
 
   getScaleValue();
-
-
-
-  // Наложение эффекта на изображение
-  let selectEffect = editForm.querySelector('#effect-none');
   effectsItems.forEach(effectsItem => {
     effectsItem.addEventListener('change', () => {
       selectEffect = effectsItem.value;

@@ -22,4 +22,11 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
-export {getRandomInt, getStringCount, getRandomElementArray, scrollOff, isEscEvent};
+// отмена закрытия окна при фокусе на инпуте
+const onEscapeDown = (evt) => {
+  if (isEscEvent) {
+    evt.stopPropagation();
+  }
+};
+
+export {getRandomInt, getStringCount, getRandomElementArray, scrollOff, isEscEvent, onEscapeDown};
