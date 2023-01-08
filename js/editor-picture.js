@@ -1,10 +1,5 @@
 import {scrollOff, isEscEvent} from './util.js';
 
-const Keys = {
-  ESC: 'Esc',
-  ESCAPE: 'Escape',
-};
-
 const Scale = {
   MAX: 100,
   MIN: 25,
@@ -39,7 +34,7 @@ uploadFileInput.addEventListener('change', () => {
 })
 
 
-document.addEventListener('keydown', (evt) => {
+document.addEventListener('keydown', () => {
   if (isEscEvent) {
     closeModal();
   }
@@ -54,6 +49,7 @@ const resetSettings = () => {
 };
 
 valueElement.value = 100;
+// eslint-disable-next-line no-undef
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -122,7 +118,6 @@ const uploadPictureForm = uploadFileInput.addEventListener('change', () => {
           });
           sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
             uploadImage.style.filter = `grayscale(${unencoded[handle]})`;
-            console.log(unencoded[handle]);
           });
           break;
         case 'sepia':
@@ -139,7 +134,6 @@ const uploadPictureForm = uploadFileInput.addEventListener('change', () => {
           });
           sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
             uploadImage.style.filter = `sepia(${unencoded[handle]})`;
-            console.log(unencoded[handle]);
           });
           break;
         case 'heat':
@@ -156,7 +150,6 @@ const uploadPictureForm = uploadFileInput.addEventListener('change', () => {
           });
           sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
             uploadImage.style.filter = `brightness(${unencoded[handle]})`;
-            console.log(unencoded[handle]);
           });
           break;
         case 'phobos':
@@ -173,7 +166,6 @@ const uploadPictureForm = uploadFileInput.addEventListener('change', () => {
           });
           sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
             uploadImage.style.filter = `blur(${unencoded[handle]}px)`;
-            console.log(unencoded[handle]);
           });
           break;
         case 'marvin':
@@ -190,13 +182,12 @@ const uploadPictureForm = uploadFileInput.addEventListener('change', () => {
           });
           sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
             uploadImage.style.filter = `invert(${unencoded[handle]}%)`;
-            console.log(unencoded[handle]);
           });
           break;
         default:
           effectLevel.classList.add('hidden');
           uploadImage.removeAttribute('class');
-          uploadImage.style.filter = `none`;
+          uploadImage.style.filter = 'none';
       }
     });
   });
