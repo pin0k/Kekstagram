@@ -19,15 +19,15 @@ const renderPhoto = (picture) => {
   return photoPreview;
 };
 
-const renderPhotos = () => {
+const renderPhotos = (photos) => {
   let picturesListFragment = document.createDocumentFragment();
 
   photos.forEach((photo) => {
+
     picturesListFragment.appendChild(renderPhoto(photo));
   });
 
   picturesList.appendChild(picturesListFragment);
-
 };
 
 export { renderPhotos };
