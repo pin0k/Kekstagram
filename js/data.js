@@ -31,8 +31,6 @@ const TEXT_MESSAGE = [
 
 const DESCRIPTION_PHOTO_COUNT = 25;
 
-//const SIMILAR_COMMENT_COUNT = getRandomInt(0, 1000);
-
 const Likes = {
   MIN: 15,
   MAX: 200};

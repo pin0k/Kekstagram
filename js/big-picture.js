@@ -1,19 +1,26 @@
-import {scrollOff} from './util.js';
+import { scrollOff, checkEsc } from './util.js';
+
+const COMMENTS_LOAD_STEP = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = document.querySelector('.big-picture__cancel');
 
 // пока скрываем лишнее
-const commentsCount = bigPicture.querySelector('.social__comment-count');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
-commentsCount.classList.add('hidden');
-commentsLoader.classList.add('hidden');
+const commentCount = bigPicture.querySelector('.social__comment-count');
+const commentLoader = bigPicture.querySelector('.comments-loader');
+
+let commentsLoaded = [];
+
+let commentsCount = COMMENTS_LOAD_STEP;
 
 const onBigPictureCloseClick = () => {
   bigPicture.classList.add('hidden');
   scrollOff.classList.remove('modal-open');
   bigPictureClose.removeEventListener('click', onBigPictureCloseClick);
   commentList.innerHTML = '';
+  document.removeEventListener('keydown', onBigPictureEscKeyDown)
+  commentsCount = COMMENTS_LOAD_STEP;
+  commentsLoaded = [];
 };
 
 // функция вывода комментариев
@@ -31,13 +38,39 @@ const renderComment = (comment) => {
 };
 
 const renderComments = (comments) => {
+  const onCommentsLoaderClick = () => {
+    renderComments(comments);
+  }
+
+  commentsCount = (comments.length < COMMENTS_LOAD_STEP) ? comments.length : commentsCount;
+  commentsLoaded = comments.slice(0, commentsCount);
+
+  commentList.innerHTML = '';
+
+  commentCount.textContent = `${commentsLoaded.length} из ${comments.length} комментариев`;
+
   let commentsListFragment = document.createDocumentFragment();
 
-  comments.forEach(comment => {
+  commentsLoaded.forEach(comment => {
     commentsListFragment.appendChild(renderComment(comment));
   });
 
   commentList.appendChild(commentsListFragment);
+
+  if (comments.length > COMMENTS_LOAD_STEP && commentsLoaded.length < comments.length) {
+    commentLoader.classList.remove('hidden');
+    commentLoader.addEventListener('click', onCommentsLoaderClick, { once: true })
+  } else {
+    commentLoader.classList.add('hidden');
+  }
+
+  commentsCount += COMMENTS_LOAD_STEP;
+}
+
+const onBigPictureEscKeyDown = (evt) => {
+  if (checkEsc(evt)) {
+    onBigPictureCloseClick()
+  }
 }
 
 // функция вывода большой картинки/поста

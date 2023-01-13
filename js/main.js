@@ -4,6 +4,7 @@ import { showError } from './alerts.js';
 import { shuffleArray, debounce } from './util.js';
 import './validator.js';
 import './editor-picture.js';
+import './upload.js';
 
 const DEFAULT_PREVIEW_LOAD = 25;
 const RANDOM_PREVIEW_LOAD = 10;
